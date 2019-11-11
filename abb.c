@@ -28,6 +28,11 @@ typedef struct abb_iter{
 
 /*-----------Funciones auxiliares-----------*/
 
+void nodo_destruir(nodo_abb_t* nodo){
+	free(nodo->clave);
+	free(nodo);
+}
+
 void abb_iter_apilar_izquierdos(pila_t* pila, nodo_abb_t* nodo){
 	if(!nodo){
 		return;
@@ -132,7 +137,7 @@ size_t abb_cantidad(abb_t *arbol){
 	return arbol->cantidad;
 }
 
-void _abb_destruir(abb_t* arbol, nodo_t* nodo){
+void _abb_destruir(abb_t* arbol, nodo_abb_t* nodo){
 	if(!nodo){
 		return;
 	}
