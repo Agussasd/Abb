@@ -124,13 +124,14 @@ nodo_abb_t* buscar_nodo(const abb_t *arbol, const char *clave,nodo_abb_t* padre)
 void *abb_borrar(abb_t *arbol, const char *clave){}
 
 void *abb_obtener(const abb_t *arbol, const char *clave){
-	return buscar_nodo(arbol,clave,arbol->raiz);
+	nodo_abb_t* nodo = buscar_nodo(arbol,clave,arbol->raiz);
+	if(nodo){
+		return nodo->dato
+	}
+	return NULL;
 }
 bool abb_pertenece(const abb_t *arbol, const char *clave){
-	if(buscar_nodo(arbol,clave,arbol->raiz)){
-		return true;
-	}
-	return false;
+	return buscar_nodo(arbol,clave,arbol->raiz);  
 }
 
 size_t abb_cantidad(abb_t *arbol){
