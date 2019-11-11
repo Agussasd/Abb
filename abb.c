@@ -107,7 +107,7 @@ bool abb_guardar(abb_t *arbol, const char *clave, void *dato){
 	return colocar_nodo(arbol,nodo,arbol->raiz);
 }
 
-nodo_abb_t* buscar_nodo(const abb_t *arbol, const char *clave,nodo_abb_t* padre){
+nodo_abb_t* buscar_nodo( const abb_t *arbol, const char *clave,nodo_abb_t* padre){
 	if(padre == NULL){
 		return NULL;
 	}
@@ -120,8 +120,22 @@ nodo_abb_t* buscar_nodo(const abb_t *arbol, const char *clave,nodo_abb_t* padre)
 	}
 	return buscar_nodo(arbol,clave, padre->der);
 }
-
-void *abb_borrar(abb_t *arbol, const char *clave){}
+nodo_abb_t* todo_izquierda(nodo_abb_t* nodo){
+	if(nodo->izq == NULL){
+		return nodo;
+	}
+	return todo_izquierda(nodo->izq)
+}
+nodo_abb_t* buscar_reemplazante(nodo_abb_t* reemplazado){
+	nodo_abb_t* derecho = reemplazado->der;
+	if(derecho->izq == NULL){
+		return derecho;
+	}
+	return todo_izquierda(derecho);
+}
+	
+void *abb_borrar(abb_t *arbol, const char *clave){
+}
 
 void *abb_obtener(const abb_t *arbol, const char *clave){
 	nodo_abb_t* nodo = buscar_nodo(arbol,clave,arbol->raiz);
