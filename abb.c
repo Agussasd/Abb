@@ -133,8 +133,30 @@ nodo_abb_t* buscar_reemplazante(nodo_abb_t* reemplazado){
 	}
 	return todo_izquierda(derecho);
 }
-	
+nodo_abb_t* buscar_nodo_eliminar(const abb_t *arbol, const char *clave,nodo_abb_t* nodo,nodo_abb_t* padre){
+	if(nodo == NULL){
+		return NULL;
+	}
+	int comparacion = arbol->cmp(nodo->clave, padre->clave);
+	if(comparacion == 0){
+		nodo_abb_t** nodo_y_padre[] = {nodo,padre}
+		return nodo;
+	}
+	if(comparacion < 1){
+		return buscar_nodo_eliminar(arbol,clave,nodo->izq,nodo);
+	}
+	return buscar_nodo_eliminar(arbol,clave,nodo->der,nodo);
+}	
 void *abb_borrar(abb_t *arbol, const char *clave){
+	nodo_abb_t** nodo_y_padre  = buscar_nodo_eliminar(arbol,clave,arbol->raiz,NULL);
+	if((nodo_y_padre[0])->izq && (nodo_y_padre[0])->izq){ //Si el nodo que quiero borrar tiene 2 hijos
+		nodo_abb_t* reemplazante = buscar_reemplazante(nodo_y_padre[0]);
+		char* clave_reemplazante = strdup(nodo_y_padre[0]->clave);
+		void* valor_reemplazante = abb_borrar(nodo_y_padre[0]);
+		if(arbol->destruir_dato){
+			arbol->destruir_dato(nodo_y_padre[0]);
+		}
+		
 }
 
 void *abb_obtener(const abb_t *arbol, const char *clave){
