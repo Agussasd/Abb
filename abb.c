@@ -130,7 +130,8 @@ nodo_abb_t* buscar_reemplazante(nodo_abb_t* reemplazado){
 	}
 	return todo_izquierda(derecho);
 }
-
+//Esta funcion busca a partir de un nodo pasado como parametro el nodo que contenga la clave, tambien pasada como parameotr
+//Devuelve un arreglo de dos nodos, en primero lugar el buscado y en segundo lugar el padre del mismo
 nodo_abb_t** buscar_nodo_padre(const abb_t *arbol, const char *clave,nodo_abb_t* nodo,nodo_abb_t* padre){
 	if(nodo == NULL){
 		return NULL;
@@ -153,10 +154,13 @@ bool es_hijo_izq(nodo_abb_t* nodo,nodo_abb_t* padre){
 
 void *abb_borrar(abb_t *arbol, const char *clave){
 	nodo_abb_t** nodo_y_padre  = buscar_nodo_padre(arbol,clave,arbol->raiz,NULL);
+	if(!nodo_y_padre){ //No se encuentra en el arbol la clave que se busca borrar
+		return false;
+	}
 	void* valor_borrado = (nodo_y_padre[0])->dato;
 	if((nodo_y_padre[0])->izq && (nodo_y_padre[0])->der){ //Si el nodo que quiero borrar tiene 2 hijos
 		nodo_abb_t* reemplazante = buscar_reemplazante(nodo_y_padre[0]);//busco el reemplazante
-		char* clave_reemplazante = strdup(reemplazante->clave); //creo una copia del reemplazante
+		char* clave_reemplazante = strdup(reemplazante->clave); //creo una copia de la clave del reemplazante
 		void* valor_reemplazante = abb_borrar(arbol,reemplazante->clave); //guardo el dato del reemplazante y llamo borrar para el mismo
 		nodo_y_padre[0]->dato = valor_reemplazante; //el dato del reemplazante pisa al dato del nodo "borrado"
 		nodo_y_padre[0]->clave = clave_reemplazante; //la clave del reemplazante pisa a la clave del nodo "borrado"
